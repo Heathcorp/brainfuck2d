@@ -18,26 +18,25 @@ void L2D_free(struct List2D* list) {
 char* L2D_access(struct List2D* list, int row, int col) {
 	if(row >= list->rows || col >= list->cols) {
 		// needs resizing, determine the new size to allocate
-		int rows, cols;
-		for(rows = list->rows; row < rows; rows *= 2);
-		for(cols = list->cols; col < cols; cols *= 2);
+		int newrows, newcols;
+		for(newrows = list->rows ? list->rows : 1; !(row < newrows); newrows *= 2);
+		for(newcols = list->cols ? list->cols : 1; !(col < newcols); newcols *= 2);
 
 		// allocate new data block
-		char* newdata = calloc(rows, cols);
+		char* newdata = calloc(newrows * newcols, 1);
 
 		// copy old data into new block
 		for(int r = 0; r < list->rows; r++) {
 			for(int c = 0; c < list->cols; c++) {
-				int index = (r * c) + c;
-				newdata[index] = list->data[index];
+				newdata[(r * newcols) + c] = list->data[(r * list->cols) + c];
 			}
 		}
 
 		free(list->data);
 		list->data = newdata;
-		list->rows = rows;
-		list->cols = cols;	
+		list->rows = newrows;
+		list->cols = newcols;	
 	}
 
-	return list->data + (row * list->cols) + col;
+	return &(list->data[(row * list->cols) + col]);
 }
