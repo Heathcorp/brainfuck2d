@@ -37,4 +37,11 @@ int T2D_move(struct Tape2D* tape, int row, int col) {
 		// quadrant 3
 		tape->head = L2D_access(&tape->quad3, -row - 1, col);
 	}
+
+	tape->row = row;
+	tape->col = col;
+
+	if(tape->head == NULL) return -1;
+
+	return 0;
 }

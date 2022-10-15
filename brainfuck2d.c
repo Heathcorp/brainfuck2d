@@ -48,11 +48,14 @@ int readfile(char** buf, char* filename) {
 int bf2d(char* program) {
 	struct Tape2D tape = T2D_init();
 
+	int pc = 0;
 	int loops[MAX_LOOPS] = {0};
 	int loopcount = 0;
 	int skiploop = -1;
-	for(int pc = 0; program[pc]; pc++) {
-		switch (program[pc]) {
+	for(char op; op = program[pc]; pc++) {
+		int chk = 0;
+		int poppedloop;
+		switch (op) {
 		case '+':
 			(*tape.head)++;
 			break;
@@ -61,16 +64,16 @@ int bf2d(char* program) {
 			break;
 
 		case '>':
-			T2D_move(&tape, tape.row, tape.col + 1);
+			chk = T2D_move(&tape, tape.row, tape.col + 1);
 			break;
 		case '<':
-			T2D_move(&tape, tape.row, tape.col - 1);
+			chk = T2D_move(&tape, tape.row, tape.col - 1);
 			break;
 		case '/':
-			T2D_move(&tape, tape.row - 1, tape.col);
+			chk = T2D_move(&tape, tape.row - 1, tape.col);
 			break;
 		case '\\':
-			T2D_move(&tape, tape.row + 1, tape.col);
+			chk = T2D_move(&tape, tape.row + 1, tape.col);
 			break;
 
 		case '.':
@@ -87,15 +90,19 @@ int bf2d(char* program) {
 			}
 			break;
 		case ']':
-			if(skiploop == -1) {
-				if(*tape.head) {
-					pc = loops[--loopcount];
-				}
-			} else if(skiploop == pc) {
+			poppedloop = loops[--loopcount];
+			if(skiploop == poppedloop) {
 				skiploop = -1;
-				loopcount--;
+			} else if(skiploop == -1 && *tape.head) {
+				pc = poppedloop - 1;
 			}
 			break;
+		default:
+			break;
+		}
+		if(chk) {
+			perror("something failed");
+			return -1;
 		}
 	}
 
