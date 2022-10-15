@@ -3,7 +3,7 @@
 
 #include "Tape2D.h"
 
-#define MAX_LOOPS 1024
+#define MAX_LOOPS 1024 * 256
 
 int readfile(char** buf, char* filename);
 int bf2d(char* program);
@@ -48,11 +48,11 @@ int readfile(char** buf, char* filename) {
 int bf2d(char* program) {
 	struct Tape2D tape = T2D_init();
 
-	int pc = 0;
 	int loops[MAX_LOOPS] = {0};
-	int loop = -1;
-	for(char op; op = program[pc]; pc++) {
-		switch (op) {
+	int loopcount = 0;
+	int skiploop = -1;
+	for(int pc = 0; program[pc]; pc++) {
+		switch (program[pc]) {
 		case '+':
 			(*tape.head)++;
 			break;
@@ -81,8 +81,20 @@ int bf2d(char* program) {
 			break;
 
 		case '[':
+			loops[loopcount++] = pc;
+			if(skiploop == -1 && *tape.head == 0) {
+				skiploop = pc;
+			}
 			break;
 		case ']':
+			if(skiploop == -1) {
+				if(*tape.head) {
+					pc = loops[--loopcount];
+				}
+			} else if(skiploop == pc) {
+				skiploop = -1;
+				loopcount--;
+			}
 			break;
 		}
 	}
