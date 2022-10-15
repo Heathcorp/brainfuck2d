@@ -97,6 +97,10 @@ int bf2d(char* program) {
 				pc = poppedloop - 1;
 			}
 			break;
+		case '#':
+			// debug
+			T2D_printgrid(&tape, tape.row - 3, tape.col - 4, tape.row + 3, tape.col + 6);
+			break;
 		default:
 			break;
 		}
