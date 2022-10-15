@@ -18,4 +18,6 @@ int T2D_free(struct Tape2D* tape);
 
 int T2D_move(struct Tape2D* tape, int row, int col);
 
+int T2D_printgrid(struct Tape2D* tape, int startrow, int startcol, int endrow, int endcol);
+
 #endif

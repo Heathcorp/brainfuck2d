@@ -2,6 +2,7 @@
 #include "List2D.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 struct Tape2D T2D_init() {
 	struct Tape2D tape;
@@ -44,4 +45,21 @@ int T2D_move(struct Tape2D* tape, int row, int col) {
 	if(tape->head == NULL) return -1;
 
 	return 0;
+}
+
+int T2D_printgrid(struct Tape2D* tape, int startrow, int startcol, int endrow, int endcol) {
+	int oldrow = tape->row;
+	int oldcol = tape->col;
+
+	for(int row = startrow; row <= endrow; row++) {
+		for(int col = startcol; col <= endcol; col++) {
+			T2D_move(tape, row, col);
+
+			printf("%02X ", *tape->head);
+		}
+		puts("");
+	}
+
+	// reset the tape position
+	T2D_move(tape, oldrow, oldcol);
 }
