@@ -99,7 +99,7 @@ int bf2d(char* program) {
 			break;
 		case '#':
 			// debug
-			T2D_printgrid(&tape, tape.row - 3, tape.col - 4, tape.row + 3, tape.col + 6);
+			T2D_printgrid(&tape, tape.row - 3, tape.col - 6, tape.row + 3, tape.col + 16);
 			break;
 		default:
 			break;

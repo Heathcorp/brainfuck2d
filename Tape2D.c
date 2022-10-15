@@ -51,14 +51,16 @@ int T2D_printgrid(struct Tape2D* tape, int startrow, int startcol, int endrow, i
 	int oldrow = tape->row;
 	int oldcol = tape->col;
 
+	puts("DEBUG START");
 	for(int row = startrow; row <= endrow; row++) {
 		for(int col = startcol; col <= endcol; col++) {
 			T2D_move(tape, row, col);
 
-			printf("%02X ", *tape->head);
+			printf("%02X%c", *tape->head, (row == oldrow && col == oldcol - 1) ? '(' : ((row == oldrow && col == oldcol) ? ')' : ' '));
 		}
 		puts("");
 	}
+	puts("DEBUG END");
 
 	// reset the tape position
 	T2D_move(tape, oldrow, oldcol);
