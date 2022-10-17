@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "List2D.h"
 #include "Tape2D.h"
 
 #define MAX_LOOPS 1024 * 256
@@ -57,10 +58,10 @@ int bf2d(char* program) {
 		int poppedloop;
 		switch (op) {
 		case '+':
-			(*tape.head)++;
+			*tape.head = (*tape.head + 1) % 256;
 			break;
 		case '-':
-			(*tape.head)--;
+			*tape.head = (*tape.head + 255) % 256;
 			break;
 
 		case '>':

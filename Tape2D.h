@@ -10,7 +10,7 @@ struct Tape2D {
 	struct List2D quad3;
 
 	int row, col;
-	char* head;
+	int* head;
 };
 
 struct Tape2D T2D_init();
