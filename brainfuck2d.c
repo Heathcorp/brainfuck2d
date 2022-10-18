@@ -56,6 +56,23 @@ int bf2d(char* program) {
 	for(char op; op = program[pc]; pc++) {
 		int chk = 0;
 		int poppedloop;
+
+		if(op == '[') {
+			loops[loopcount++] = pc;
+			if(skiploop == -1 && *tape.head == 0) {
+				skiploop = pc;
+			}
+		} else if(op == ']') {
+			poppedloop = loops[--loopcount];
+			if(skiploop == poppedloop) {
+				skiploop = -1;
+			} else if(skiploop == -1 && *tape.head) {
+				pc = poppedloop - 1;
+			}
+		}
+
+		if (skiploop > -1) continue;
+
 		switch (op) {
 		case '+':
 			*tape.head = (*tape.head + 1) % 256;
@@ -85,26 +102,22 @@ int bf2d(char* program) {
 			break;
 
 		case '[':
-			loops[loopcount++] = pc;
-			if(skiploop == -1 && *tape.head == 0) {
-				skiploop = pc;
-			}
 			break;
 		case ']':
-			poppedloop = loops[--loopcount];
-			if(skiploop == poppedloop) {
-				skiploop = -1;
-			} else if(skiploop == -1 && *tape.head) {
-				pc = poppedloop - 1;
-			}
 			break;
+
 		case '#':
 			// debug
-			T2D_printgrid(&tape, tape.row - 3, tape.col - 6, tape.row + 3, tape.col + 16);
+			if(skiploop == -1) T2D_printgrid(&tape, tape.row - 3, tape.col - 6, tape.row + 3, tape.col + 16);
+			break;
+		case '$':
+			// debug
+			if(skiploop == -1) printf("DEBUG: %d\n", *tape.head);
 			break;
 		default:
 			break;
 		}
+
 		if(chk) {
 			perror("something failed");
 			return -1;
