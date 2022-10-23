@@ -80,20 +80,22 @@ else n != 1
 							else n != 51
 
 								\\
-								[-]-
+								[-]
 								//
 
 							[-]]>[[-]<[-]
-							if n == 51
+							if n == 51 (closeb)
 								\\
 								[-]++++++
+								\++/
 								//
 							>]<
 
 						[-]]>[[-]<[-]
-						if n ==49
+						if n == 49 (openb)
 							\\
 							[-]+++++
+							\+/
 							//
 						>]<
 
@@ -141,31 +143,24 @@ if n == 1 (plus)
 
 >
 ]
-<[<]>
-
-construct the masking layers for the loops and pc and tape head
-[
-	pc:/+\
-	loops:\+
-	tape head:\+
-	tape cells:\[-]
-	///
->]<[<]
+<[<]
 
 
 add boundaries
-/<->\-\-\-\-///
+/<->\ - \ - \<->\<->///
 [>]
-/ - \-\-\-\-///
-<[<]>
+/ - \ - \ - \ - \ - ///
+<[<]/>>
 
+tape head
+\\\+///
+pc
+<+>
 
 main brainfuck loop:
-/>
-tape head = 0
-\\\-///
+
 +[-
-<+>-
+<->+
 
 	copy the current command to a clean space
 	\[-//+/+\\\]//[-\\+//]/
@@ -191,51 +186,91 @@ tape head = 0
 									do nothing
 								]>[-<
 								if comma
-									\\\\\+[-<+]->[>]
+									\\\\\+[-<+]->-[+>-]+
 
 									\,/
 
-									+[-<+]-<///+[->+]->[>]//
+									+[-<+]-<///+[->+]->-[+>-]+//
 								>]<
 							]>[-<
 							if dot
-								\\\\\+[-<+]->[>]
+								\\\\\+[-<+]->-[+>-]+
 
 								\./
 
-								+[-<+]-<///+[->+]->[>]//
+								+[-<+]-<///+[->+]->-[+>-]+//
 							>]<
 						]>[-<
 						if closeb
-							+++++++++++++++++++++++++++++++++++++.[-]
+							set the loop marker to 3
+							\\\\+
+							find the current cell
+							\+[-<+]->-[+>-]+
+
+							\[-\+\+//]\[-/+\]\
+
+							[[-]
+							if tape cell is not 0
+								find the current loop marker
+								///+[-<+]-<///+[->+]->
+								-[+>-]+\\
+
+								go back to the corresonding loop marker
+								TODO
+							]
+
+							+[-<+]-<///+[->+]->-[+>-]+//
 						>]<
 					]>[-<
 					if openb
-						++++++++++++++++++++++++++++++++++++.[-]
+						set the loop marker to 3
+						\\\\++
+						find the current cell
+						\+[-<+]->-[+>-]+
+
+						\[-\+\+//]\[-/+\]\
+
+						>+<[>-<[-]]>[-
+						if tape cell is 0
+							go through the loops and find the right one to skip to
+							find the current loop start
+							///+[-<+]-<///+[->+]->
+							-[+>-]+\\
+
+							go forward and mark and unmark loops until the matching one is found
+							TODO
+						]
+
+						+[-<+]-<///+[->+]->-[+>-]+//
 					>]<
 				]>[-<
 				if left
-					\\\\\+[-<+]->[>]
-					todo: check for and extend boundaries
-					+<->
+					\\\\\+[-<+]->-[+>-]+
 
-					+[-<+]-<///+[->+]->[>]//
+					check for and extend boundary if needed
+					<<-\-/>+\+/
+					[<+\+/>-\-/]
+					+>-
+
+					+[-<+]-<///+[->+]->-[+>-]+//
 				>]<
 			]>[-<
 			if right
-				\\\\\+[-<+]->[>]
-				todo: check for and extend boundaries
-				+>-<
+				\\\\\+[-<+]->-[+>-]+
+				
+				>>-\-/<+\+/
+				[>+\+/<-\-/]
+				+<-
 
-				+[-<+]-<///+[->+]->[>]//
+				+[-<+]-<///+[->+]->-[+>-]+//
 			>]<
 		]>[-<
 		if minus
-			\\\\\+[-<+]->[>]
+			\\\\\+[-<+]->-[+>-]+
 
 			\-/
 
-			+[-<+]-<///+[->+]->[>]//
+			+[-<+]-<///+[->+]->-[+>-]+//
 		>]<
 	]>[-<\\
 	if plus
@@ -243,14 +278,14 @@ tape head = 0
 		\\\
 		+[-<+]->
 		check right for a tape head
-		[>]
+		-[+>-]+
 		increment
 		\+/
 		find the pc again
-		+[-<+]-<
-		///
+		+[-<+]-
+		<///
 		+[->+]-
-		>[>]
+		>-[+>-]+
 
 	//>]<
 	

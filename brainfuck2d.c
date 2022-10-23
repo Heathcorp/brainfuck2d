@@ -108,7 +108,7 @@ int bf2d(char* program) {
 
 		case '#':
 			// debug
-			if(skiploop == -1) T2D_printgrid(&tape, tape.row - 3, tape.col - 6, tape.row + 3, tape.col + 16);
+			if(skiploop == -1) T2D_printgrid(&tape, tape.row - 5, tape.col - 10, tape.row + 5, tape.col + 24);
 			break;
 		case '$':
 			// debug
