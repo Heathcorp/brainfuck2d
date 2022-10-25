@@ -1,23 +1,17 @@
 
 
-input a brainfuck program from the command line
+input a brainfuck program till null character
+-\>
 ,
-----------
-[++++++++++>,----------]
-<[<]>
+[>,]
+/-<+[-<+]-
 
 need to translate to small numbers for easier coding later
-first construct a large constant and subtract from each program character 
-</
-++++++ ++++++ ++++++ ++++++ ++++++ ++++++ ++++++
-[-
-	subtract 1 from each program character
-	>\[
-		->
-	]
-	return back
-	<[<]/
-]>\
+>
++[-
+	\------ ------ ------ ------ ------ ------ ------/
+>+]-<+[-<+]-
+
 
 
 plus	1	1
@@ -31,11 +25,11 @@ closeb	51	6
 dot		4	7
 comma	2	8
 
-other	255
+other	0
 
 
-for each character in the bf file  convert the char to a digit as above
-[
+for each character in the bf file convert the char to a digit as above
+>+[-\
 copy n up two spaces
 [-/+/+\\]/[-\+/]/
 
@@ -141,19 +135,14 @@ if n == 1 (plus)
 	//
 >]<\\
 
->
-]
-<[<]
+/>+]-
 
 
 add boundaries
-/<->\ - \ - \<->\<->///
-[>]
-/ - \ - \ - \ - \ - ///
-<[<]/>>
+\-\-\-\-////<+[-<+]<->\-\-\<-\->////>
 
 tape head
-\\\>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<///
+\\\+///
 pc
 <+>
 

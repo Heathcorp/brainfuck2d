@@ -72,7 +72,7 @@ int bf2d(char* program) {
 		}
 
 		if (skiploop > -1) continue;
-
+		int ch;
 		switch (op) {
 		case '+':
 			*tape.head = (*tape.head + 1) % 256;
@@ -98,7 +98,9 @@ int bf2d(char* program) {
 			putchar(*tape.head);
 			break;
 		case ',':
-			*tape.head = getchar();
+			ch = getchar();
+			if(ch == -1) ch = 0;
+			*tape.head = ch;
 			break;
 
 		case '[':
