@@ -153,7 +153,7 @@ add boundaries
 <[<]/>>
 
 tape head
-\\\+///
+\\\>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<///
 pc
 <+>
 
@@ -202,46 +202,103 @@ main brainfuck loop:
 							>]<
 						]>[-<
 						if closeb
-							set the loop marker to 3
-							\\\\+
 							find the current cell
-							\+[-<+]->-[+>-]+
+							\\\\\+[-<+]->-[+>-]+
 
 							\[-\+\+//]\[-/+\]\
 
 							[[-]
-							if tape cell is not 0
-								find the current loop marker
-								///+[-<+]-<///+[->+]->
-								-[+>-]+\\
+							if tape cell is not 0 go through the loops and find the right one to skip back to
+							starts 2 below the tape
+								
+								///+[-<+]-///+[->+]-
+								set the loop counter to 1
+								<+
 
-								go back to the corresonding loop marker
-								TODO
+								[>>-[+>-]<+\\
+								go through each loop marker until the counter is 0
+									copy to above for if else
+									[-///+/+\\\\]///[-\\\+///]/
+
+									->+<[>-<
+									else not loop start
+										->+<[>-<[-]
+										else neither loop start or end
+											pass
+										]>[-<
+										if loop end take 1 from counter
+											find counter
+											\\+[-<+]-<
+											+
+											navigate back
+											>>-[+>-]+//
+										>]<
+									]>[-<
+									if loop start add 1 to counter
+										\\+[-<+]-<
+										-
+										>>-[+>-]+//
+									>]<
+								\\+[-<+]-<]
+
+								clear loop counter just in case
+								[-]
+
+								return back to 2 below the tape
+								>\\\+[-<+]->-[+>-]+\\\
 							]
 
-							+[-<+]-<///+[->+]->-[+>-]+//
+							///+[-<+]-<///+[->+]->-[+>-]+//
 						>]<
 					]>[-<
 					if openb
-						set the loop marker to 3
-						\\\\++
 						find the current cell
-						\+[-<+]->-[+>-]+
+						\\\\\+[-<+]->-[+>-]+
 
 						\[-\+\+//]\[-/+\]\
 
-						>+<[>-<[-]]>[-
-						if tape cell is 0
-							go through the loops and find the right one to skip to
-							find the current loop start
-							///+[-<+]-<///+[->+]->
-							-[+>-]+\\
+						>+<[>-<[-]]>[-<
+						if tape cell is 0 go through the loops and find the right one to skip to
+						starts 2 below the tape
+							
+							///+[-<+]-///+[->+]-
+							set the loop counter to 1
+							<+
 
-							go forward and mark and unmark loops until the matching one is found
-							TODO
-						]
+							[>>-[+>-]>+\\
+							go through each loop marker until the counter is 0
+								copy to above for if else
+								[-///+/+\\\\]///[-\\\+///]/
 
-						+[-<+]-<///+[->+]->-[+>-]+//
+								->+<[>-<
+								else not loop start
+									->+<[>-<[-]
+									else neither loop start or end
+										pass
+									]>[-<
+									if loop end take 1 from counter
+										find counter
+										\\+[-<+]-<
+										-
+										navigate back
+										>>-[+>-]+//
+									>]<
+								]>[-<
+								if loop start add 1 to counter
+									\\+[-<+]-<
+									+
+									>>-[+>-]+//
+								>]<
+							\\+[-<+]-<]
+
+							clear loop counter just in case
+							[-]
+
+							return back to 2 below the tape
+							>\\\+[-<+]->-[+>-]+\\\
+						>]<
+
+						///+[-<+]-<///+[->+]->-[+>-]+//
 					>]<
 				]>[-<
 				if left

@@ -114,12 +114,16 @@ int bf2d(char* program) {
 			// debug
 			if(skiploop == -1) printf("DEBUG: %d\n", *tape.head);
 			break;
+		case '~':
+			// debug
+			if(skiploop == -1) return -1;
+			break;
 		default:
 			break;
 		}
 
 		if(chk) {
-			perror("something failed");
+			perror("aborted");
 			return -1;
 		}
 	}
