@@ -15,3 +15,5 @@ Standard Brainfuck programming applies, with two extra opcodes:
 ``#``	Debug: Print the grid surrounding the tape head
 
 ``$``	Debug: Print the value of the current cell
+
+``~``	Debug: Exit the program
